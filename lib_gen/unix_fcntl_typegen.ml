@@ -18,13 +18,26 @@
 open Ctypes
 
 let () =
-  let type_oc = open_out "lib_gen/unix_fcntl_types_detect.c" in
-  let fmt = Format.formatter_of_out_channel type_oc in
-  Format.fprintf fmt "#ifndef __FreeBSD__@.";
-  Format.fprintf fmt "#  define _GNU_SOURCE@.";
-  Format.fprintf fmt "#  define _POSIX_C_SOURCE 200809L@.";
-  Format.fprintf fmt "#  define _DARWIN_C_SOURCE@.";
-  Format.fprintf fmt "#endif@.";
-  Format.fprintf fmt "#include <fcntl.h>@.";
-  Cstubs.Types.write_c fmt (module Unix_fcntl_types.C);
-  close_out type_oc;
+  let filename = ref "" in
+  Arg.parse [
+    "-o", Arg.Set_string filename, "output file name"
+  ] (fun x ->
+    Printf.fprintf stderr "Unknown argument: %s\n" x;
+    exit (-1)
+  ) "Generate some bindings";
+
+  match Filename.basename !filename with
+  | "unix_fcntl_types_detect.c" ->
+    let type_oc = open_out !filename in
+    let fmt = Format.formatter_of_out_channel type_oc in
+    Format.fprintf fmt "#ifndef __FreeBSD__@.";
+    Format.fprintf fmt "#  define _GNU_SOURCE@.";
+    Format.fprintf fmt "#  define _POSIX_C_SOURCE 200809L@.";
+    Format.fprintf fmt "#  define _DARWIN_C_SOURCE@.";
+    Format.fprintf fmt "#endif@.";
+    Format.fprintf fmt "#include <fcntl.h>@.";
+    Cstubs.Types.write_c fmt (module Unix_fcntl_types.C);
+    close_out type_oc
+  | x ->
+    Printf.fprintf stderr "Unknown output filename. Try unix_fcntl_types_detect.c\n";
+    exit(-1)

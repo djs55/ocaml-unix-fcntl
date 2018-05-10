@@ -34,7 +34,7 @@ dispatch begin
       ~prods:["lib_gen/%_types_detect.c"]
       ~deps: ["lib_gen/%_typegen.byte"]
       (fun env build ->
-         Cmd (A(env "lib_gen/%_typegen.byte")));
+              Cmd (S [A(env "lib_gen/%_typegen.byte"); Sh"-o"; A(env "lib_gen/unix_fcntl_types_detect.c")]));
 
     rule "fcntl_maps: maps/x -> lib/fcntl_map_x.ml"
       ~prods:["lib/fcntl_map_%.ml"]
