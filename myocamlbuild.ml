@@ -50,11 +50,15 @@ dispatch begin
     copy_rule "cstubs: lib_gen/x_types.ml -> unix/x_types.ml"
       "lib_gen/%_types.ml" "unix/%_types.ml";
 
-    rule "cstubs: lib/x_bindings.ml -> x_stubs.c, x_generated.ml"
+    rule "cstubs: lib/x_bindings.ml ->  x_stubs.c, x_generated.ml"
       ~prods:["unix/%_stubs.c"; "unix/%_generated.ml"]
       ~deps: ["lib_gen/%_bindgen.byte"]
       (fun env build ->
-        Cmd (A(env "lib_gen/%_bindgen.byte")));
+        Seq [
+              Cmd (S [A(env "lib_gen/%_bindgen.byte"); Sh"-o"; A(env "unix/%_stubs.c")]);
+              Cmd (S [A(env "lib_gen/%_bindgen.byte"); Sh"-o"; A(env "unix/%_generated.ml")]);
+            ]
+      );
 
     copy_rule "cstubs: lib_gen/x_bindings.ml -> unix/x_bindings.ml"
       "lib_gen/%_bindings.ml" "unix/%_bindings.ml";
