@@ -1,0 +1,4 @@
+(executables
+ ((names (test))
+  (libraries (unix-errno.unix lwt.unix alcotest unix-type-representations ctypes.stubs unix-fcntl.lwt))
+))

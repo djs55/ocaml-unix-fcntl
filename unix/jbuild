@@ -1,0 +1,17 @@
+(library
+ ((name    unix-fcntl.unix)
+  (libraries (bytes ctypes.stubs unix-errno unix-type-representations))
+  (wrapped false)
+  (modules (fcntl_unix unix_types_detected))
+  (c_names (unix_fcntl_util.c))
+))
+
+(rule
+ ((targets (unix_types_detected.ml))
+  (deps    (../lib_gen/unix_fcntl_types_detect.exe))
+  (action  (run ${<} -o ${@}))))
+
+(rule
+ ((targets (unix_fcntl_generated.ml unix_fcntl_stubs.c))
+  (deps   (../lib_gen/unix_fcntl_bindgen.exe))
+  (action  (run ${<} -o ${@}))))

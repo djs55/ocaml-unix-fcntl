@@ -1,0 +1,5 @@
+(rule
+ ((targets (fcntl_map_linux_4_1_12_musl_1_1_12.ml fcntl_map_osx_10_11_2.ml))
+  (deps    (../src/fcntl_typegen.exe))
+  (action  (run ${<} -o ${@}))))
+
