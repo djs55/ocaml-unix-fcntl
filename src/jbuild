@@ -1,0 +1,5 @@
+(executables
+ ((names (fcntl_srcgen))
+  (libraries (ctypes.stubs unix-errno.unix unix-type-representations unix_fcntl))
+))
+
