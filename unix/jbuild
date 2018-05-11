@@ -1,5 +1,5 @@
 (library
- ((name    unix-fcntl.unix)
+ ((name    unix_fcntl_unix)
   (libraries (bytes ctypes.stubs unix-errno unix-type-representations))
   (wrapped false)
   (modules (fcntl_unix unix_types_detected))

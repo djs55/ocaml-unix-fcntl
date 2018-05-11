@@ -1,6 +1,7 @@
 (rule
- ((tragets (unix_fcntl_types_detect.exe))
+ ((targets (unix_fcntl_types_detect.exe))
   (deps    (unix_types_detect.c))
+  (action  (run ${<} -o ${@}))
 ; cc -I /Users/djs/.opam/system/lib/ctypes -I /usr/local/lib/ocaml -o lib_gen/unix_fcntl_types_detect lib_gen/unix_fcntl_types_detect.c
 ))
 

@@ -1,5 +1,5 @@
 (library
- ((name    unix-fcntl.lwt)
+ ((name    unix_fcntl_lwt)
   (libraries (lwt.preemptive unix-errno unix-type-representations ctypes))
   (wrapped false)
   (modules (fcntl_unix_lwt))
